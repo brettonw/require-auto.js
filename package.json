@@ -1,0 +1,24 @@
+{
+  "name": "require-auto",
+  "version": "1.0.0",
+  "description": "require - with automatic installation",
+  "main": "require-auto.js",
+  "scripts": {
+    "test": "node test/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brettonw/require-auto.js.git"
+  },
+  "keywords": [
+    "require",
+    "automatic",
+    "download"
+  ],
+  "author": "Bretton Wade",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brettonw/require-auto.js/issues"
+  },
+  "homepage": "https://github.com/brettonw/require-auto.js#readme"
+}
