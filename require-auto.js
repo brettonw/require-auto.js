@@ -17,6 +17,21 @@ var fileExists = function (path) {
     return false;
 };
 
+var chop = function (str) {
+    var isWhiteSpace = function (c) {
+        var whiteSpaceChars = [' ','\n','\r','\t'];
+        whiteSpaceChars.forEach (function (cc) {
+            if (cc == c) return true;
+        });
+        return false;
+    };
+    var start = 0;
+    while (isWhiteSpace (str.charAt (start))) { ++start; }
+    var end = str.length - 1;
+    while (isWhiteSpace (str.charAt (end))) { --end; }
+    return str.substr (start, end - start);
+}
+
 // runReturn - internal helper function to synchronously run npm and return the output
 // as a string (capability like this should be a built-in, IMNSHO)
 var runNpm = function (command) {
@@ -28,11 +43,8 @@ var runNpm = function (command) {
     _cp.spawnSync("node", [npm, command, outputName], options);
     // read the output file back in
     result = _fs.readFileSync(outputName, "utf8");
-
-    // chop off the newline
-    result = result.substr (0, result.length - 1);
     _fs.unlinkSync(outputName);
-    return result;
+    return chop (result);
 }
 
 var requireAuto = function (name) {
