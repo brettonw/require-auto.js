@@ -4,7 +4,7 @@
   "description": "require - with automatic installation",
   "main": "require-auto.js",
   "scripts": {
-    "test": "node test/main.js"
+    "test": "test/test.sh"
   },
   "repository": {
     "type": "git",
