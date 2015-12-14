@@ -17,13 +17,21 @@ var fileExists = function (path) {
     return false;
 };
 
+// getSync - internal helper to synchronously make a web request
+var getSync = function (url, path) {
+    var options = { stdio: ["ignore", 1, 2] };
+    var httpRequestJs = _path.join(__dirname, "http-request.js");
+    _cp.execSync("node " + httpRequestJs + " " + url + " " + path, options);
+};
+
 // npmRoot - internal helper function to... WELLLLL (church lady voice) - npm is 
 // *SPECIAL*. Rather than try to look simply for where npm will put the included
 // packages, I'll have to ask npm directly
 var npmRoot = function () {
     // compute a temporary name for the file I want to use to facilitate my synchronous
     // execution of the npm root command
-    var outputName = _path.join (__dirname, "" + Date.now ());
+    var tmpDir = _os.tmpdir ();
+    var outputName = _path.join (tmpDir, "" + Date.now ());
     //process.stderr.write ("OutputName: " + outputName + "\n");
 
     // compute the path of the npm.js script, and set up the options to run it
@@ -50,6 +58,20 @@ var requireAuto = function (name) {
         // which means this program won't work on vanilla windows now...
         var options = { stdio: [0, 1, 2] };
         _cp.execSync("bash -c 'pwd; npm install " + name + "'", options);
+    } else {
+        // check to see if the package is out of date, start by reading the 
+        // package.json file
+        var installedVersion = JSON.parse (_fs.readFileSync(_path.join (package, "package.json"), "utf8")).version;
+        var tmpDir = _os.tmpdir ();
+        var outputName = _path.join (tmpDir, "" + Date.now ());
+        getSync ("http://registry.npmjs.org/" + name + "/latest", outputName);
+        var latestVersion = JSON.parse (_fs.readFileSync(outputName, "utf8")).version;
+        _fs.unlinkSync(outputName);
+        process.stderr.write ("installedVersion (" + installedVersion + ")\n");
+        process.stderr.write ("latestVersion (" + latestVersion + ")\n");
+        if (installedVerion != latestVersion) {
+            
+        }
     }
     return require (name);
 };
