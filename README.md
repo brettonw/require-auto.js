@@ -1,7 +1,7 @@
 # auto-require.js
 require.js - with automatic download
 
-A lot of people seem to have having to "require" the packages they always use, and there
+A lot of people seem to hate having to "require" the packages they always use, and there
 are good packages for requiring all the packages you need automatically.
 
 This package addresses a slightly different problem, I always forget to "npm install" my
