@@ -4,9 +4,9 @@
 // process.argv[3] = destination
 
 var _fs = require ("fs");
-var _exec = require("child_process").exec;
+var _cp = require("child_process");
 
-var child = _exec("npm " + process.argv[2], function (error, stdout, stderr) {
+var child = _cp.exec("bash -c 'npm " + process.argv[2] + "'", function (error, stdout, stderr) {
     if (! error) {
         // capture stdout to a file
         _fs.appendFile(process.argv[3], stdout, function (err) {

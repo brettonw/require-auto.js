@@ -23,14 +23,15 @@ var getNpmRoot = function () {
     // compute a temporary name for the file I want to use to facilitate my synchronous
     // execution of the npm root command
     var outputName = _path.join (__dirname, "" + Date.now ());
-    //process.stderr.write (outputName + "\n");
+    //process.stderr.write ("OutputName: " + outputName + "\n");
 
     // compute the path of the npm.js script, and set up the options to run it
-    var npm = _path.join(__dirname, "npm.js");
+    var npmjs = _path.join(__dirname, "npm.js");
+    //process.stderr.write ("NPM.js: " + npmjs + "\n");
     var options = { stdio: ["ignore", 1, 2] };
-    _cp.spawnSync("node", [npm, "root", outputName], options);
+    _cp.execSync("node " + npmjs + " root " + outputName, options);
 
-    // read the output file back in, then remove it, and chop the return
+    // read the output file back in, then remove it, and trim the return
     var result = _fs.readFileSync(outputName, "utf8");
     _fs.unlinkSync(outputName);
     return result.trim ();
@@ -48,7 +49,10 @@ var requireAuto = function (name) {
     if (! fileExists (package)) {
         process.stderr.write ("install (" + name + ")\n");
         var options = { stdio: [0, 1, 2] };
-        _cp.spawnSync("npm install " + name, [], options);
+        
+        // Isn't that *SPECIAL* (church lady voice) - npm doesn't like cygwin
+        // which means this program won't work on vanilla windows now...
+        _cp.execSync("bash -c 'pwd; npm install " + name + "'", options);
     }
     return require (name);
 };
