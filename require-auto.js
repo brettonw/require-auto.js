@@ -48,7 +48,7 @@ var requireAuto = function (name) {
     if (! fileExists (package)) {
         process.stderr.write ("install (" + name + ")\n");
         var options = { stdio: [0, 1, 2] };
-        _cp.spawnSync("npm", ["install", name], options);
+        _cp.spawnSync("npm install " + name, [], options);
     }
     return require (name);
 };
