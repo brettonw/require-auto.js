@@ -40,7 +40,7 @@ var requireAuto = function (name) {
     // WELLLLL (church lady voice) - npm is *SPECIAL*. Rather than try to look simply
     // for where npm will put the included packages, I'll have to ask npm directly
     var path = getNpmRoot ();
-    //process.stderr.write ("Path (" + path + ")\n");
+    process.stderr.write ("Root (" + path + ")\n");
 
     // figure out where our package should be
     var package = _path.join (path, name);
