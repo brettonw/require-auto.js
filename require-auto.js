@@ -17,9 +17,10 @@ var fileExists = function (path) {
     return false;
 };
 
-// getNpmRoot - internal helper function to synchronously run npm and return the output
-// as a string
-var getNpmRoot = function () {
+// npmRoot - internal helper function to... WELLLLL (church lady voice) - npm is 
+// *SPECIAL*. Rather than try to look simply for where npm will put the included
+// packages, I'll have to ask npm directly
+var npmRoot = function () {
     // compute a temporary name for the file I want to use to facilitate my synchronous
     // execution of the npm root command
     var outputName = _path.join (__dirname, "" + Date.now ());
@@ -35,16 +36,12 @@ var getNpmRoot = function () {
     var result = _fs.readFileSync(outputName, "utf8");
     _fs.unlinkSync(outputName);
     return result.trim ();
-}
+} ();
+//process.stderr.write ("npm root (" + npmRoot + ")\n");
 
 var requireAuto = function (name) {
-    // WELLLLL (church lady voice) - npm is *SPECIAL*. Rather than try to look simply
-    // for where npm will put the included packages, I'll have to ask npm directly
-    var path = getNpmRoot ();
-    process.stderr.write ("Root (" + path + ")\n");
-
     // figure out where our package should be
-    var package = _path.join (path, name);
+    var package = _path.join (npmRoot, name);
     //process.stderr.write ("Package (" + package + ")\n");
     if (! fileExists (package)) {
         process.stderr.write ("install (" + name + ")\n");
