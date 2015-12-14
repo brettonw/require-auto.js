@@ -10,5 +10,6 @@ debugging the problem. This package will notice that a package hasn't been insta
 just do it.
 
 Usage:
+
     var requireAuto = require ("require-auto");
     var myPackage = requireAuto ("myPackage");
