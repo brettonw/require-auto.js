@@ -1,6 +1,6 @@
 {
   "name": "require-auto",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "require - with automatic installation",
   "main": "require-auto.js",
   "scripts": {
