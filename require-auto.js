@@ -32,34 +32,37 @@ var chop = function (str) {
     return str.substr (start, end - start);
 }
 
-// runReturn - internal helper function to synchronously run npm and return the output
-// as a string (capability like this should be a built-in, IMNSHO)
-var runNpm = function (command) {
-    var result = "";
+// getNpmRoot - internal helper function to synchronously run npm and return the output
+// as a string
+var getNpmRoot = function () {
+    // compute a temporary name for the file I want to use to facilitate my synchronous
+    // execution of the npm root command
     var outputName = _path.join (__dirname, "" + Date.now ());
-    process.stderr.write (outputName + "\n");
+    //process.stderr.write (outputName + "\n");
+
+    // compute the path of the npm.js script, and set up the options to run it
     var npm = _path.join(__dirname, "npm.js");
     var options = { stdio: ["ignore", 1, 2] };
-    _cp.spawnSync("node", [npm, command, outputName], options);
-    // read the output file back in
-    result = _fs.readFileSync(outputName, "utf8");
+    _cp.spawnSync("node", [npm, "root", outputName], options);
+
+    // read the output file back in, then remove it, and chop the return
+    var result = _fs.readFileSync(outputName, "utf8");
     _fs.unlinkSync(outputName);
     return chop (result);
 }
 
 var requireAuto = function (name) {
     // WELLLLL (church lady voice) - npm is *SPECIAL*. Rather than try to look simply
-    // for where npm will put the included packages, I'll just ask npm directly
-    var path = runNpm ("root");
-    process.stderr.write ("Path (" + path + ")\n");
+    // for where npm will put the included packages, I'll have to ask npm directly
+    var path = getNpmRoot ();
+    //process.stderr.write ("Path (" + path + ")\n");
 
     // figure out where our package should be
     var package = _path.join (path, name);
-    process.stderr.write ("Package (" + package + ")\n");
+    //process.stderr.write ("Package (" + package + ")\n");
     if (! fileExists (package)) {
         process.stderr.write ("install (" + name + ")\n");
         var options = { stdio: [0, 1, 2] };
-        _cp.spawnSync("pwd", options);
         _cp.spawnSync("npm", ["install", name], options);
     }
     return require (name);
