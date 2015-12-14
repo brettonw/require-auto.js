@@ -44,11 +44,11 @@ var requireAuto = function (name) {
     var package = _path.join (npmRoot, name);
     //process.stderr.write ("Package (" + package + ")\n");
     if (! fileExists (package)) {
-        process.stderr.write ("install (" + name + ")\n");
-        var options = { stdio: [0, 1, 2] };
+        //process.stderr.write ("install (" + name + ")\n");
         
         // Isn't that *SPECIAL* (church lady voice) - npm doesn't like cygwin
         // which means this program won't work on vanilla windows now...
+        var options = { stdio: [0, 1, 2] };
         _cp.execSync("bash -c 'pwd; npm install " + name + "'", options);
     }
     return require (name);
