@@ -2,6 +2,6 @@
 
 var requireAuto = require ("..");
 
-var _ns =requireAuto ("namespace-include");
-_ns.include ("output");
+var _ns = requireAuto ("namespace-include")
+    .include ("output");
 stdout.writeln ("YES!");
