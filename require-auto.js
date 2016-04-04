@@ -69,7 +69,7 @@ var requireAuto = function (name) {
         _fs.unlinkSync(outputName);
         process.stderr.write ("installedVersion (" + installedVersion + ")\n");
         process.stderr.write ("latestVersion (" + latestVersion + ")\n");
-        if (installedVerion != latestVersion) {
+        if (installedVersion != latestVersion) {
             
         }
     }
