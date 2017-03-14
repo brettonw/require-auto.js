@@ -24,7 +24,7 @@ var getSync = function (url, path) {
     _cp.execSync("node " + httpRequestJs + " " + url + " " + path, options);
 };
 
-// npmRoot - internal helper function to... WELLLLL (church lady voice) - npm is 
+// npmRoot - internal helper function to... WELLLLL (church lady voice) - npm is
 // *SPECIAL*. Rather than try to look simply for where npm will put the included
 // packages, I'll have to ask npm directly
 var npmRoot = function () {
@@ -53,13 +53,13 @@ var requireAuto = function (name) {
     //process.stderr.write ("Package (" + package + ")\n");
     if (! fileExists (package)) {
         //process.stderr.write ("install (" + name + ")\n");
-        
+
         // Isn't that *SPECIAL* (church lady voice) - npm doesn't like cygwin
         // which means this program won't work on vanilla windows now...
         var options = { stdio: [0, 1, 2] };
         _cp.execSync("bash -c 'pwd; npm install " + name + "'", options);
     } else {
-        // check to see if the package is out of date, start by reading the 
+        // check to see if the package is out of date, start by reading the
         // package.json file
         var installedVersion = JSON.parse (_fs.readFileSync(_path.join (package, "package.json"), "utf8")).version;
         var tmpDir = _os.tmpdir ();
@@ -69,8 +69,8 @@ var requireAuto = function (name) {
         _fs.unlinkSync(outputName);
         process.stderr.write ("installedVersion (" + installedVersion + ")\n");
         process.stderr.write ("latestVersion (" + latestVersion + ")\n");
-        if (installedVerion != latestVersion) {
-            
+        if (installedVersion != latestVersion) {
+
         }
     }
     return require (name);
